@@ -1,4 +1,5 @@
 #pragma once
+#include <iterator>
 
 class Stack
 {
@@ -11,7 +12,7 @@ private:
 			val( val ),
 			pNext( pNext )
 		{}
-		Element( const Element& src )
+		Element( Element& src )
 			:
 			val( src.val )
 		{
@@ -24,6 +25,24 @@ private:
 		int GetVal() const
 		{
 			return val;
+		}
+		Element* GetNextElement()
+		{
+			return pNext;
+		}
+		int* GetValPtr() 
+		{
+			//int* ptr= &val;
+			return &val;
+		}
+		int* GetEndValPtr() 
+		{
+			Element* ptr = pNext;
+			while (ptr->pNext != nullptr)
+			{
+				ptr = ptr->pNext;
+			}
+			return ptr->GetValPtr();
 		}
 		Element* Disconnect()
 		{
@@ -47,10 +66,45 @@ private:
 			delete pNext;
 			pNext = nullptr;
 		}
-	private:
+	public:
 		int val;
 		Element* pNext = nullptr;
 	};
+public:
+	class Iterator
+	{
+	public:
+		Iterator(Element* pElement)
+			:
+			pCurrentElement(pElement)
+		{}
+		//Iterator operator++(int) //postfix incrementor
+		//{}
+		int& operator*()
+		{
+			return pCurrentElement->val;
+		}
+		Iterator& operator++() //prefix incrementor
+		{
+			if (pCurrentElement != nullptr)
+				pCurrentElement = pCurrentElement->pNext;// GetNextElement();
+			return *this;
+		}
+		bool operator!=(Iterator& rhs)
+		{
+			return rhs.pCurrentElement != pCurrentElement;
+		}
+	private:
+		Element* pCurrentElement;
+	};
+	Iterator begin()
+	{
+		return Iterator(pTop);
+	}
+	Iterator end()
+	{
+		return Iterator(nullptr);
+	}
 public:
 	Stack() = default;
 	Stack( const Stack& src )

@@ -5,6 +5,10 @@
 #include "ChiliString.h"
 #include "Stack.h"
 #include <iostream>
+#include <vector>
+//#include <forward_list>
+#include <list>
+//#include <iterator>
 
 void test1()
 {
@@ -211,6 +215,15 @@ void test10()
 	}
 }
 
+template<typename Iter1, typename Iter2, typename Iter3>
+void sum(Iter1 in1, Iter1 end1, Iter2 in2, Iter3 out)
+{
+	for (; in1 != end1; ++in1, ++in2, ++out)
+	{
+		*out = *in1 + *in2;
+	}
+}
+
 int main()
 {
 	_CrtSetReportMode( _CRT_WARN,_CRTDBG_MODE_FILE );
@@ -236,6 +249,22 @@ int main()
 	/////////////////////////////////////////////////////////////////////
 	// level 1
 	{
+		std::vector<int> vi{ 0,1,2,3,4,5,6,7 };
+		std::vector<float> vf{ 0.0f,0.1f,0.2f,0.3f,0.4f,0.5f,0.6f,0.7f };
+
+		sum( vi.begin(), vi.end(), vf.begin(), std::ostream_iterator<float>(std::cout, ", ") );
+		std::cout << std::endl;
+
+		std::list<float> lf;
+		//lf.resize(8);
+		//sum(vi.begin(), vi.end(), vf.begin(), lf.begin() );
+		sum(vi.begin(), vi.end(), vf.begin(), std::back_insert_iterator<std::list<float>>(lf) );
+
+		for (float v : lf)
+		{
+			std::cout << v << ", ";
+		}
+		/*
 		Stack s;
 		s.Push( 520 );
 		s.Push( 79 );
@@ -247,14 +276,24 @@ int main()
 		{
 			n *= 10;
 		}
+		for (auto n : s)
+		{
+			std::cout << n << ", ";
+		}
+		std::cout << std::endl;
+		
+		std::reverse(s.begin(), s.end());
 
-		// print out all elements
+		//print out all elements
 		for( auto n : s )
 		{
 			std::cout << n << ", ";
 		}
 		std::cout << std::endl;
+	*/
 	}
+	
+
 	//// level 2 (uncomment to challenge)
 	//{
 	//	Stack s;
