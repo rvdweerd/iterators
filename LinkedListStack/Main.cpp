@@ -249,22 +249,7 @@ int main()
 	/////////////////////////////////////////////////////////////////////
 	// level 1
 	{
-		std::vector<int> vi{ 0,1,2,3,4,5,6,7 };
-		std::vector<float> vf{ 0.0f,0.1f,0.2f,0.3f,0.4f,0.5f,0.6f,0.7f };
-
-		sum( vi.begin(), vi.end(), vf.begin(), std::ostream_iterator<float>(std::cout, ", ") );
-		std::cout << std::endl;
-
-		std::list<float> lf;
-		//lf.resize(8);
-		//sum(vi.begin(), vi.end(), vf.begin(), lf.begin() );
-		sum(vi.begin(), vi.end(), vf.begin(), std::back_insert_iterator<std::list<float>>(lf) );
-
-		for (float v : lf)
-		{
-			std::cout << v << ", ";
-		}
-		/*
+		
 		Stack s;
 		s.Push( 520 );
 		s.Push( 79 );
@@ -276,13 +261,13 @@ int main()
 		{
 			n *= 10;
 		}
-		for (auto n : s)
-		{
-			std::cout << n << ", ";
-		}
-		std::cout << std::endl;
 		
-		std::reverse(s.begin(), s.end());
+		Stack::Iterator i = s.begin();
+		Stack::Iterator e = s.end();
+		for (; i != e; i++)
+		{
+			*i *= 10;
+		}
 
 		//print out all elements
 		for( auto n : s )
@@ -290,25 +275,28 @@ int main()
 			std::cout << n << ", ";
 		}
 		std::cout << std::endl;
-	*/
+	
 	}
 	
 
 	//// level 2 (uncomment to challenge)
-	//{
-	//	Stack s;
-	//	s.Push( 520 );
-	//	s.Push( 79 );
-	//	s.Push( 8168118 );
-	//	s.Push( 6311369 );
+	{
+		Stack s;
+		s.Push( 520 );
+		s.Push( 79 );
+		s.Push( 8168118 );
+		s.Push( 6311369 );
 
-	//	const Stack& cs = s;
-	//	for( auto& n : cs )
-	//	{
-	//		std::cout << n << ", ";
-	//	}
-	//	std::cout << std::endl;
-	//}
+		const Stack& cs = s;
+		
+		
+		
+		for( auto& n : cs )
+		{
+			std::cout << n << ", ";
+		}
+		std::cout << std::endl;
+	}
 
 	/////////////////////////////////////////////////////////////////////
 

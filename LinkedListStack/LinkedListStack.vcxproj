@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClInclude Include="ChiliString.h" />
     <ClInclude Include="example.h" />
+    <ClInclude Include="example2.h" />
     <ClInclude Include="Stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

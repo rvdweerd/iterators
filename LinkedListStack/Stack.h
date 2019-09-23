@@ -71,39 +71,92 @@ private:
 		Element* pNext = nullptr;
 	};
 public:
+	//Implementing the regular iterator for Stack
 	class Iterator
 	{
 	public:
+		Iterator() = default;
 		Iterator(Element* pElement)
 			:
 			pCurrentElement(pElement)
 		{}
-		//Iterator operator++(int) //postfix incrementor
-		//{}
-		int& operator*()
+		int& operator*() const
 		{
 			return pCurrentElement->val;
 		}
 		Iterator& operator++() //prefix incrementor
 		{
 			if (pCurrentElement != nullptr)
-				pCurrentElement = pCurrentElement->pNext;// GetNextElement();
+				pCurrentElement = pCurrentElement->pNext;
 			return *this;
 		}
-		bool operator!=(Iterator& rhs)
+		Iterator operator++(int) //postfix operator
+		{
+			if (pCurrentElement != nullptr)
+			{
+				Element* temp = pCurrentElement;
+				pCurrentElement = pCurrentElement->pNext;
+			}
+			return *this;
+		}
+		bool operator!=(const Iterator& rhs) const
 		{
 			return rhs.pCurrentElement != pCurrentElement;
 		}
 	private:
-		Element* pCurrentElement;
+		Element* pCurrentElement = nullptr;
 	};
 	Iterator begin()
 	{
-		return Iterator(pTop);
+		return { pTop };
 	}
 	Iterator end()
 	{
-		return Iterator(nullptr);
+		return {};
+	}
+
+	public:
+	//Implementing the const iterator for Stack
+	class const_Iterator
+	{
+	public:
+		const_Iterator(const Element* const pElement)
+			:
+			pCurrentElement(pElement)
+		{}
+		const int& operator*() const
+		{
+			return pCurrentElement->val;
+		}
+		const const_Iterator& operator++() //prefix incrementor
+		{
+			if (pCurrentElement != nullptr)
+				pCurrentElement = pCurrentElement->pNext;
+			return *this;
+		}
+		const const_Iterator operator++(const int) //postfix operator
+		{
+			if (pCurrentElement != nullptr)
+			{
+				const Element* temp = pCurrentElement;
+				pCurrentElement = pCurrentElement->pNext;
+			}
+			return *this;
+		}
+		bool operator!=(const const_Iterator& rhs) const
+		{
+			return rhs.pCurrentElement != pCurrentElement;
+		}
+	private:
+		const Element* pCurrentElement;
+	};
+	const_Iterator begin() const
+	{
+		return const_Iterator(pTop);
+	}
+	const_Iterator end() const
+	{
+		return const_Iterator(nullptr);
 	}
 public:
 	Stack() = default;
